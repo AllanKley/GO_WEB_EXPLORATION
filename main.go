@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"text/template"
 
-	_ "github.com/lib/pq"
 	"github.com/AllanKley/GO_WEB_EXPLORATION/Database"
+	_ "github.com/lib/pq"
 )
 
 type Product struct {
@@ -18,7 +18,6 @@ type Product struct {
 var templates = template.Must(template.ParseGlob("./templates/*.html"))
 
 func main() {
-
 	dbm := &Database.DatabaseManager{
 		Host:     "localhost",
 		Port:     "5432",
@@ -33,7 +32,10 @@ func main() {
 	defer db.Close()
 
 	http.HandleFunc("/", index)
-	http.ListenAndServe(":8000", nil)
+	err := http.ListenAndServe(":8000", nil)
+	if err != nil {
+		panic(err.Error())
+	}
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -41,5 +43,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 		{"product_1", "description_1", 100, 10},
 	}
 
-	templates.ExecuteTemplate(w, "Index", products)
+	err := templates.ExecuteTemplate(w, "Index", products)
+	if err != nil {
+		panic(err.Error())
+	}
 }

@@ -12,20 +12,20 @@ type DatabaseManager struct {
 }
 
 func (dbm *DatabaseManager) CreateConnectionString() string {
-	connectString := "user=" + dbm.user
-	connectString += "dbname=" + dbm.dbName
-	connectString += "password=" + dbm.password
-	connectString += "host=" + dbm.host
-	connectString += "sslmode=" + dbm.ssl
+	connectString := "user=" + dbm.User
+	connectString += "dbname=" + dbm.DbName
+	connectString += "password=" + dbm.Password
+	connectString += "host=" + dbm.Host
+	connectString += "sslmode=" + dbm.Ssl
 
 	return connectString
 }
 
-func (dbm *DatabaseManager) Connect() *sql.DB{
+func (dbm *DatabaseManager) Connect() *sql.DB {
 	db, err := sql.Open("postgres", dbm.CreateConnectionString())
 	if err != nil {
 		panic(err.Error())
 	}
-	
+
 	return db
 }
